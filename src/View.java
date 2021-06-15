@@ -12,7 +12,6 @@ public class View  implements TimerObserver {
     }
 
     public void showQuestionsList() {
-
         System.out.println(this.model.getCurrentPlayer().getName() + " Please choose question from the list " +
                 this.model.showQuestionsIds());
     }

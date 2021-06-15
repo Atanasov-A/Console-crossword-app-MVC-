@@ -1,12 +1,10 @@
 import java.util.*;
 
-public class Model implements TimerObserver {
+public class Model {
 
     private static Model instance = null;
     private Crossword crossword;
     private MyTimer timer;
-
-    private TimerSubject timerSubject;
 
     private ArrayList<Player> players;
     private HashMap<Integer, Question> questionsHashMap;
@@ -14,22 +12,19 @@ public class Model implements TimerObserver {
     private int currentPlayerId = 0;
     private int currentQuestionId = -1;
 
-    private Model(TimerSubject timerSubject) {
+    private Model() {
         this.questionsHashMap = QuestionDataSet.getInstance().getDataSetIdQuestion();
         this.timer = MyTimer.getInstance();
         initializePlayers();
         this.crossword = Crossword.getInstance();
-        this.timerSubject = timerSubject;
-        this.timerSubject.registerObserver(this);
     }
 
     public static Model getInstance() {
         if (instance == null) {
-            instance = new Model(MyTimer.getInstance());
+            instance = new Model();
         }
         return instance;
     }
-
 
     public void addAnsweredQuestionId(int questionId) {
         this.answeredQuestionsIds.add(questionId);
@@ -124,6 +119,7 @@ public class Model implements TimerObserver {
     }
 
     public void endTurn() {
+        System.out.println("END TURN");
         this.currentQuestionId = -1;
         this.timer.stopTimer();
         this.switchPlayer();
@@ -157,10 +153,5 @@ public class Model implements TimerObserver {
 
     public boolean doesQuestionExists() {
         return this.questionsHashMap.keySet().contains(this.currentQuestionId);
-    }
-
-    @Override
-    public void update() {
-        this.endTurn();
     }
 }
