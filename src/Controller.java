@@ -111,10 +111,7 @@ public class Controller implements TimerObserver {
         if (userInput.isEmpty()) {
             this.model.endTurn();
         } else {
-            // Hashmap ID - Question + Answer
-            if (this.model.getCrosswordIdQuestion()
-                    .get(this.model.getCurrentQuestionId())
-                    .getAnswer().length() < userInput.length()) {
+            if (this.model.getCurrentQuestionAnswerLength() < userInput.length()) {
                 view.showAdditionalInfo("The word can't be longer than the given field.");
                 this.answerQuestionInputHandler();
             } else {

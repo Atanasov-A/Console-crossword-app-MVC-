@@ -153,4 +153,8 @@ public class Model {
     public boolean doesQuestionExists() {
         return this.questionsHashMap.keySet().contains(this.currentQuestionId);
     }
+
+    public int getCurrentQuestionAnswerLength() {
+        return this.questionsHashMap.get(this.currentQuestionId).getAnswer().length();
+    }
 }
