@@ -119,7 +119,6 @@ public class Model {
     }
 
     public void endTurn() {
-        System.out.println("END TURN");
         this.currentQuestionId = -1;
         this.timer.stopTimer();
         this.switchPlayer();
