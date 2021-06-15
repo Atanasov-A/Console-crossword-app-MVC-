@@ -5,6 +5,8 @@ public class Controller implements TimerObserver {
     private Model model;
     private View view;
 
+    // After the time is up, the scanner is not closed, but
+    // the user input should not be saved.
     private boolean shouldTakeUserInput = false;
 
     public Controller(Model model, View view) {
