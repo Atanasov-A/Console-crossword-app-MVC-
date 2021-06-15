@@ -6,7 +6,6 @@ public class Model implements TimerObserver {
     private Crossword crossword;
     private MyTimer timer;
 
-
     private TimerSubject timerSubject;
 
     private ArrayList<Player> players;
@@ -14,7 +13,6 @@ public class Model implements TimerObserver {
     private Set<Integer> answeredQuestionsIds = new HashSet<>();
     private int currentPlayerId = 0;
     private int currentQuestionId = -1;
-
 
     private Model(TimerSubject timerSubject) {
         this.questionsHashMap = QuestionDataSet.getInstance().getDataSetIdQuestion();
@@ -108,7 +106,7 @@ public class Model implements TimerObserver {
 
     public void saveCurrentQuestionId(int currentQuestionId) {
         this.currentQuestionId = currentQuestionId;
-
+        this.timer.startTimer();
     }
 
     public int getCurrentQuestionId() {
@@ -128,17 +126,15 @@ public class Model implements TimerObserver {
     public void endTurn() {
         this.currentQuestionId = -1;
         this.timer.stopTimer();
-        saveCurrentQuestionId(currentQuestionId);
-        this.timer.stopTimer();
-
+        this.switchPlayer();
     }
 
     public void saveQuestionAnswer(String userInput) {
         getCurrentPlayer().getSavedAnswers().put(currentQuestionId, userInput);
         this.addAnsweredQuestionId(currentQuestionId);
         this.updateCrossword();
-        this.timer.stopTimer();
         this.currentQuestionId = -1;
+        this.endTurn();
     }
 
     public void switchPlayer() {
@@ -159,8 +155,12 @@ public class Model implements TimerObserver {
         return crossword;
     }
 
+    public boolean doesQuestionExists() {
+        return this.questionsHashMap.keySet().contains(this.currentQuestionId);
+    }
+
     @Override
     public void update() {
-        endTurn();
+        this.endTurn();
     }
 }

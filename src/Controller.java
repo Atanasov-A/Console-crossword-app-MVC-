@@ -7,23 +7,22 @@ public class Controller implements TimerObserver {
 
     private boolean shouldTakeUserInput = false;
 
-    public Controller(Model model, View view, TimerSubject timerSubject) {
+    public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
-        timerSubject.registerObserver(this);
+        this.model.getTimer().registerObserver(this);
     }
 
     public void doit() {
         this.view.printCrossword();
-        while (!this.model.getCrosswordIdQuestion().keySet().contains(this.model.getCurrentQuestionId())) {
-                this.chooseQuestion();
+        while (!this.model.doesQuestionExists()) {
+            this.chooseQuestion();
         }
+
         this.view.showCommands();
         this.view.showQuestion();
-        this.model.getTimer().startTimer();
 
         this.answerQuestionInputHandler();
-        this.model.switchPlayer();
 
         if (this.model.isCrosswordFilled()) {
             this.view.setRunning(false);
@@ -41,6 +40,7 @@ public class Controller implements TimerObserver {
         } catch (Exception e) {
             System.out.println("Exception chooseQuestion " + e);
         }
+        // Internally start timer
         this.model.saveCurrentQuestionId(chosenQuestionId);
     }
 
@@ -105,7 +105,6 @@ public class Controller implements TimerObserver {
     }
 
     private void savePlayerInput(String userInput) {
-
         // If the time is up, the scanner can not be closed you should click enter to end the turn
         if (userInput.isEmpty()) {
             this.model.endTurn();

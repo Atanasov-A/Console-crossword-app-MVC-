@@ -81,12 +81,6 @@ public class Crossword {
         }
     }
 
-    public void printCrossword() {
-        for (int i = 0; i < this.crossword.length; i++) {
-            System.out.println(String.format(crosswordLine, crossword[i]));
-        }
-    }
-
     // Find the indexes of the specific question.
     // Return array of indexes, where the question is located.
     // the first index is the row and the second the column
@@ -110,5 +104,11 @@ public class Crossword {
 
     public String getCrosswordLine() {
         return crosswordLine;
+    }
+
+    public void printCrossword() {
+        for (int i = 0; i < this.crossword.length; i++) {
+            System.out.println(String.format(crosswordLine, crossword[i]));
+        }
     }
 }

@@ -5,10 +5,10 @@ public class View  implements TimerObserver {
     private Controller controller;
     private boolean running = true;
 
-    public View(Model model, TimerSubject timerSubject) {
+    public View(Model model) {
         this.model = model;
-        this.controller = new Controller(model, this, timerSubject);
-        timerSubject.registerObserver(this);
+        this.controller = new Controller(model, this);
+        this.model.getTimer().registerObserver(this);
     }
 
     public void showQuestionsList() {
@@ -64,6 +64,10 @@ public class View  implements TimerObserver {
     public void startEventLoop() {
         while (this.running) {
             this.controller.doit();
+        }
+        if(!this.running) {
+            System.out.println("The crossword is filled. The game is ending.");
+            this.printCrossword();
         }
     }
 
